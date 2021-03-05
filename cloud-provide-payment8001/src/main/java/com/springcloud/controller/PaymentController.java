@@ -1,13 +1,15 @@
 package com.springcloud.controller;
 
 
-import com.springcloud.service.PaymentService;
 import com.springcloud.entities.CommonResult;
 import com.springcloud.entities.Payment;
+import com.springcloud.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: SFX
@@ -42,6 +44,22 @@ public class PaymentController {
             return new CommonResult(444,"没有对应记录，查询ID："+id,null);
         }
     }
+
+
+
+    @GetMapping(value = "/payment/feign/timeout")
+    public String paymentFeignTimeout(){
+        try { TimeUnit.SECONDS.sleep(3); }catch (Exception e) {e.printStackTrace();}
+        return port;
+    }
+
+
+    @GetMapping(value = "/payment/lb")
+    public String getPaymentLB(){
+        return port;
+    }
+
+
 }
 
 
